@@ -6,11 +6,12 @@ class WidgetTarjeta extends StatelessWidget {
   final String nombre;
   final String correo;
 
-  const WidgetTarjeta(
-      {@required this.funcion,
-      @required this.url,
-      @required this.nombre,
-      @required this.correo});
+  const WidgetTarjeta({
+    @required this.funcion,
+    @required this.url,
+    @required this.nombre,
+    @required this.correo
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,18 +23,21 @@ class WidgetTarjeta extends StatelessWidget {
         width: size.width * 0.8587,
         height: size.height * 0.0727,
         margin: EdgeInsets.only(
-            top: size.height * 0.0222,
-            left: size.width * 0.064,
-            right: size.width * 0.0773),
+          top: size.height * 0.0222,
+          left: size.width * 0.064,
+          right: size.width * 0.0773
+        ),
         decoration: BoxDecoration(
-            color: Color.fromRGBO(254, 221, 124, 0.31),
-            borderRadius: BorderRadius.circular(14),
-            boxShadow: [
-              BoxShadow(
-                  color: Color.fromRGBO(0, 0, 0, 0.16),
-                  offset: Offset(0, 3),
-                  blurRadius: 6)
-            ]),
+          color: Color.fromRGBO(254, 221, 124, 0.31),
+          borderRadius: BorderRadius.circular(14),
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromRGBO(0, 0, 0, 0.16),
+              offset: Offset(0, 3),
+              blurRadius: 6
+            )
+          ]
+        ),
         child: Row(
           children: [
             ClipRRect(

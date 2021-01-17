@@ -13,34 +13,36 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final HttpLink httpLink =
-      new HttpLink(uri: 'https://graphqlzero.almansi.me/api');
+  final HttpLink httpLink = new HttpLink(uri: 'https://graphqlzero.almansi.me/api');
 
   @override
   Widget build(BuildContext context) {
-    final ValueNotifier<GraphQLClient> client =
-        new ValueNotifier<GraphQLClient>(
-            GraphQLClient(cache: InMemoryCache(), link: httpLink));
+    final ValueNotifier<GraphQLClient> client = new ValueNotifier<GraphQLClient>(
+      GraphQLClient(
+        cache: InMemoryCache(), 
+        link: httpLink
+      )
+    );
 
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UsuarioProvider()),
       ],
       child: GraphQLProvider(
-          client: client,
-          child: MaterialApp(
-            title: 'UserApp',
-            debugShowCheckedModeBanner: false,
-            theme: temaGlobal(context),
-            initialRoute: 'splash',
-            routes: {
-              'splash'  : (BuildContext context) => SplashPage(),
-              'loading' : (BuildContext context) => LoadingPage(),
-              'login'   : (BuildContext context) => LoginPage(),
-              'home'    : (BuildContext context) => HomePage(),
-            },
-          ),
+        client: client,
+        child: MaterialApp(
+          title: 'UserApp',
+          debugShowCheckedModeBanner: false,
+          theme: temaGlobal(context),
+          initialRoute: 'splash',
+          routes: {
+            'splash'  : (BuildContext context) => SplashPage(),
+            'loading' : (BuildContext context) => LoadingPage(),
+            'login'   : (BuildContext context) => LoginPage(),
+            'home'    : (BuildContext context) => HomePage(),
+          },
         ),
+      ),
     );
   }
 }

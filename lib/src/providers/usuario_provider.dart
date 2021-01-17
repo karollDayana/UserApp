@@ -5,10 +5,6 @@ class UsuarioProvider with ChangeNotifier{
   Usuario _usuario = Usuario(username: '', password: '');
   bool _isLogin = false;
 
-  UsuarioProvider(
-
-  );
-
   Usuario get usuario => this._usuario;
   bool get isLogin => this._isLogin;
 
@@ -26,6 +22,4 @@ class UsuarioProvider with ChangeNotifier{
     this._isLogin = value;
     notifyListeners();
   }
-
-
 }

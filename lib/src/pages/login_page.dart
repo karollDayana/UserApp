@@ -15,7 +15,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
+    final usuarioProvider = Provider.of<UsuarioProvider>(context); 
 
     return Query(
       options: QueryOptions(documentNode: gql(Consulta.userLogin)),
@@ -25,36 +25,52 @@ class LoginPage extends StatelessWidget {
         }
 
         if (result.loading) {
-          return Center(
-            child: CircularProgressIndicator(
-              backgroundColor: Theme.of(context).primaryColor,
+          return Container(
+            width: double.infinity,
+            height: double.infinity,
+            color: Colors.white,
+            child: Center(
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+              ),
             ),
           );
         }
-        print('ejecuta');
 
-      return Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
-        body: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Stack(
-            children: [
-              Fondo(result.data['user']['username'], result.data['user']['phone']),
-              Positioned(
+        return Scaffold(
+          backgroundColor: Theme.of(context).primaryColor,
+          body: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Stack(
+              children: [
+                Fondo(result.data['user']['username'], result.data['user']['phone']),
+                Positioned(
                   top: size.height * 0.1325,
                   left: size.width * 0.15,
-                  child: Image(image: AssetImage('assets/images/download.png'))),
-            ],
+                  child: Image(image: AssetImage('assets/images/download.png'))
+                ),
+                (usuarioProvider.isLogin)
+                ? Container(
+                  width: size.width,
+                  height: size.height,
+                  color: Colors.white.withOpacity(0.40),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                    )
+                  ),
+                ) 
+                : Container()
+              ],
+            ),
           ),
-        ),
-      );
-    
-  });
-}
+        );    
+      }
+    );
+  }
 }
 
 class Fondo extends StatefulWidget {
-
   final String username;
   final String password;
 
@@ -94,33 +110,39 @@ class _FondoState extends State<Fondo> {
       width: size.width,
       height: size.height * 0.5123,
       decoration: BoxDecoration(
-          color: Color.fromRGBO(255, 255, 255, 1),
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(100)),
-          boxShadow: [
-            BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.05),
-                offset: Offset(0, 1),
-                blurRadius: 12)
-          ]),
+        color: Color.fromRGBO(255, 255, 255, 1),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(100)),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.05),
+            offset: Offset(0, 1),
+            blurRadius: 12
+          )
+        ]
+      ),
       child: Column(
         children: [
-          Formulario(emailController: emailController, passwordController: passwordController,),
+          Formulario(
+            emailController: emailController, 
+            passwordController: passwordController,
+          ),
           WidgetBoton(
             marginTop: size.height * 0.0517,
             anchoTexto: size.width * 0.2187,
             color: Theme.of(context).primaryColor,
             texto: 'SIGN IN',
-            funcion: () { 
-              print(emailController.text +' -------------'+ passwordController.text);
-
-              if(emailController.text == usuarioProvider.usuario.username && passwordController.text == usuarioProvider.usuario.password){
-                    Navigator.pushReplacementNamed(context, 'home');
-                  }else{
-                    return mostrarAlerta(context, 'Error de Login', 'Credenciales invalidas, por favor intentelo nuevamente.');
-                  }
-              //usuarioProvider.isLogin = true;
-            }
-              //Navigator.pushNamed(context, 'home');
+            funcion: (emailController.text != '' && passwordController.text != '')
+              ? () async{ 
+                if(emailController.text == usuarioProvider.usuario.username && passwordController.text == usuarioProvider.usuario.password){
+                  usuarioProvider.isLogin = true;
+                  await Future.delayed(Duration(milliseconds: 1000));
+                  usuarioProvider.isLogin = false;
+                  Navigator.pushReplacementNamed(context, 'home');
+                }else{
+                  return mostrarAlerta(context, 'Error de Login', 'Credenciales invalidas, por favor intentelo nuevamente.');
+                }
+              }
+              : null
           ),
           Registro()
         ],
@@ -133,7 +155,10 @@ class Formulario extends StatelessWidget {
   final TextEditingController emailController;
   final TextEditingController passwordController;
 
-  const Formulario({@required this.emailController, @required this.passwordController});
+  const Formulario({
+    @required this.emailController, 
+    @required this.passwordController
+  });
 
   @override
   Widget build(BuildContext context) {

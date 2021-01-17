@@ -35,8 +35,9 @@ class _SplashPageState extends State<SplashPage> with WidgetsBindingObserver{
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
-        body: Stack(children: [
+      backgroundColor: Theme.of(context).primaryColor,
+      body: Stack(
+        children: [
           Column(
             children: [
               Titulo(),
@@ -64,12 +65,13 @@ class _SplashPageState extends State<SplashPage> with WidgetsBindingObserver{
               height: size.height * 1,
             ),
           )
-        ]));
+        ]
+      )
+    );
   }
 
   void accesoGps(PermissionStatus status) {
     switch (status) {
-
       case PermissionStatus.granted:
         Navigator.pushReplacementNamed(context, 'login');
         break;
@@ -119,9 +121,10 @@ class Texto extends StatelessWidget {
       width: size.width * 0.8053,
       height: size.height * 0.1022,
       margin: EdgeInsets.only(
-          top: size.height * 0.0344,
-          left: size.width * 0.1413,
-          right: size.width * 0.0533),
+        top: size.height * 0.0344,
+        left: size.width * 0.1413,
+        right: size.width * 0.0533
+      ),
       child: Text(
         'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam',
         style: TextStyle(

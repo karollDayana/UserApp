@@ -18,55 +18,56 @@ class HomePage extends StatelessWidget {
               width: size.width * 0.3093,
               height: size.height * 0.0271,
               margin: EdgeInsets.only(
-                  top: size.height * 0.0419, right: size.width * 0.6267),
+                top: size.height * 0.0419, 
+                right: size.width * 0.6267
+              ),
               child: Text(
                 'CONTACTOS',
                 style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600),
+                  fontFamily: 'Montserrat',
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600
+                ),
                 textAlign: TextAlign.left,
               ),
             ),
-            SizedBox(
-              height: size.height * 0.0099,
-            ),
+            SizedBox( height: size.height * 0.0099),
             Expanded(
-                child: Center(
-              child: Query(
-                options: QueryOptions(documentNode: gql(Consulta.getUser)),
-                builder: (QueryResult result, {fetchMore, refetch}) {
-                  if (result.hasException) {
-                    return Text(result.exception.toString());
-                  }
+              child: Center(
+                child: Query(
+                  options: QueryOptions(documentNode: gql(Consulta.getUser)),
+                  builder: (QueryResult result, {fetchMore, refetch}) {
+                    if (result.hasException) {
+                      return Text(result.exception.toString());
+                    }
 
-                  if (result.loading) {
-                    return CircularProgressIndicator(
-                      strokeWidth: 2,
-                      backgroundColor: Theme.of(context).primaryColor,
-                    );
-                  }
+                    if (result.loading) {
+                      return CircularProgressIndicator(
+                        strokeWidth: 2,
+                        backgroundColor: Theme.of(context).primaryColor,
+                      );
+                    }
 
-                  List usuarios = result.data['users']['data'];
+                    List usuarios = result.data['users']['data'];
 
-                  return ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    itemCount: usuarios.length,
-                    itemBuilder: (context, index) {
-                      List<Widget> itemMap = usuarios
+                    return ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: usuarios.length,
+                      itemBuilder: (context, index) {
+                        List<Widget> itemMap = usuarios
                           .map((item) => WidgetTarjeta(
-                              funcion: () {},
-                              url: item['albums']['data'][0]['photos']['data']
-                                  [0]['url'],
-                              nombre: item['name'],
-                              correo: item['email']))
-                          .toList();
-                      return itemMap[index];
-                    },
-                  );
-                },
-              ),
-            ))
+                            funcion: () {},
+                            url: item['albums']['data'][0]['photos']['data'][0]['url'],
+                            nombre: item['name'],
+                            correo: item['email']
+                          )).toList();
+                        return itemMap[index];
+                      },
+                    );
+                  },
+                ),
+              )
+            )
           ],
         ),
       ),
@@ -83,16 +84,19 @@ class Menu extends StatelessWidget {
       width: size.width,
       height: size.height * 0.0899,
       decoration: BoxDecoration(
-          color: Color.fromRGBO(255, 255, 255, 1),
-          borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(30),
-              bottomRight: Radius.circular(30)),
-          boxShadow: [
-            BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.05),
-                offset: Offset(0, 1),
-                blurRadius: 12)
-          ]),
+        color: Color.fromRGBO(255, 255, 255, 1),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30)
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.05),
+            offset: Offset(0, 1),
+            blurRadius: 12
+          )
+        ]
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -100,8 +104,9 @@ class Menu extends StatelessWidget {
             width: size.width * 0.2933,
             height: size.height * 0.0443,
             decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.circular(18)),
+              color: Theme.of(context).primaryColor,
+              borderRadius: BorderRadius.circular(18)
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -114,10 +119,11 @@ class Menu extends StatelessWidget {
                 Text(
                   'Home',
                   style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12,
-                      color: Color.fromRGBO(26, 26, 26, 1)),
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w500,
+                    fontSize: 12,
+                    color: Color.fromRGBO(26, 26, 26, 1)
+                  ),
                   textAlign: TextAlign.left,
                 )
               ],
