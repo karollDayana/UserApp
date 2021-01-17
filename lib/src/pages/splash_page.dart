@@ -1,7 +1,35 @@
+
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:userapp/src/widgets/boton.dart';
 
-class SplashPage extends StatelessWidget {
+class SplashPage extends StatefulWidget {
+  @override
+  _SplashPageState createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> with WidgetsBindingObserver{
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async{
+    if(state == AppLifecycleState.resumed) {
+      if(await Permission.location.isGranted) {
+        Navigator.pushReplacementNamed(context, 'loading');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -18,7 +46,11 @@ class SplashPage extends StatelessWidget {
                 color: Color.fromRGBO(26, 26, 26, 1),
                 texto: 'IR A LOGIN',
                 anchoTexto: size.width * 0.3147,
-                funcion: () => Navigator.pushNamed(context, 'login'),
+                funcion: () async{
+                  final status = await Permission.location.request();
+
+                  this.accesoGps( status );
+                },
               ),
             ],
           ),
@@ -33,6 +65,20 @@ class SplashPage extends StatelessWidget {
             ),
           )
         ]));
+  }
+
+  void accesoGps(PermissionStatus status) {
+    switch (status) {
+
+      case PermissionStatus.granted:
+        Navigator.pushReplacementNamed(context, 'login');
+        break;
+      case PermissionStatus.undetermined:
+      case PermissionStatus.denied:
+      case PermissionStatus.restricted:
+      case PermissionStatus.permanentlyDenied:
+        openAppSettings();
+    }
   }
 }
 

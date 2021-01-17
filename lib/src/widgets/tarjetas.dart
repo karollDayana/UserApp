@@ -46,10 +46,10 @@ class WidgetTarjeta extends StatelessWidget {
               ),
             ),
             Container(
-              height: size.height * 0.0283,
               margin: EdgeInsets.only(left: size.width * 0.056),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     nombre.toUpperCase(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:userapp/src/utils/querys.dart';
 import 'package:userapp/src/widgets/tarjetas.dart';
-import 'package:userapp/utils/querys.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -42,6 +42,7 @@ class HomePage extends StatelessWidget {
 
                   if (result.loading) {
                     return CircularProgressIndicator(
+                      strokeWidth: 2,
                       backgroundColor: Theme.of(context).primaryColor,
                     );
                   }

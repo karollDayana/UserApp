@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:userapp/src/pages/home_page.dart';
+import 'package:userapp/src/pages/loading_page.dart';
 import 'package:userapp/src/pages/login_page.dart';
 import 'package:userapp/src/pages/splash_page.dart';
-import 'package:userapp/src/provider/login_provider.dart';
+import 'package:userapp/src/providers/usuario_provider.dart';
 import 'package:userapp/src/theme/tema.dart';
 
 void main() {
@@ -23,22 +24,23 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => UsuarioProvider()),
       ],
       child: GraphQLProvider(
-        client: client,
-        child: MaterialApp(
-          title: 'UserApp',
-          debugShowCheckedModeBanner: false,
-          theme: temaGlobal(context),
-          initialRoute: 'splash',
-          routes: {
-            'splash': (BuildContext context) => SplashPage(),
-            'login': (BuildContext context) => LoginPage(),
-            'home': (BuildContext context) => HomePage(),
-          },
+          client: client,
+          child: MaterialApp(
+            title: 'UserApp',
+            debugShowCheckedModeBanner: false,
+            theme: temaGlobal(context),
+            initialRoute: 'splash',
+            routes: {
+              'splash'  : (BuildContext context) => SplashPage(),
+              'loading' : (BuildContext context) => LoadingPage(),
+              'login'   : (BuildContext context) => LoginPage(),
+              'home'    : (BuildContext context) => HomePage(),
+            },
+          ),
         ),
-      ),
     );
   }
 }
